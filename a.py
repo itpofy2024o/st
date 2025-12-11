@@ -245,8 +245,8 @@ print("Saved outputs to:", OUT_DIR)
 print("Models created (count assets with >=1 bucket trained):", 
       sum(1 for v in asset_models.values() if (v['low_obj'] is not None) or (v['high_obj'] is not None)))
 print("\nTop assets by RMSE (per_asset_metrics):")
-print(per_asset_metrics_df)
+print(per_asset_metrics_dfi.dropna(subset=['RMSE', 'MAE', 'Direction_Acc']))
 print("\nSample per-(asset,gap) eval (top RMSE rows):")
-print(eval_df.sort_values('rmse', ascending=False))
+print(eval_df.dropna(subset=['rmse', 'mae', 'direction_acc'].sort_values('rmse', ascending=False))
 print("Pipeline finished.")
 
