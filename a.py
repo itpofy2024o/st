@@ -239,14 +239,21 @@ pred_full = pred_df.merge(eval_df, on=['asset','gap'], how='left')
 pred_full.to_csv(PRED_CSV, index=False)
 per_asset_metrics_df.to_csv(PER_ASSET_CSV, index=False)
 eval_df.to_csv(PER_ASSET_GAP_CSV, index=False)
-
+f=['BTC','ETH','SOL','ZEC','BNB', 'XRP']
 # ------------------- FINAL REPORT -------------------
 print("Saved outputs to:", OUT_DIR)
 print("Models created (count assets with >=1 bucket trained):", 
       sum(1 for v in asset_models.values() if (v['low_obj'] is not None) or (v['high_obj'] is not None)))
 print("\nTop assets by RMSE (per_asset_metrics):")
-print(per_asset_metrics_dfi.dropna(subset=['RMSE', 'MAE', 'Direction_Acc']))
-print("\nSample per-(asset,gap) eval (top RMSE rows):")
-print(eval_df.dropna(subset=['rmse', 'mae', 'direction_acc'].sort_values('rmse', ascending=False))
+# print(per_asset_metrics_df.dropna(subset=['RMSE', 'MAE', 'Direction_Acc']))
+print(per_asset_metrics_df[
+    # per_asset_metrics_df['asset'].isin(f)
+    # & 
+    per_asset_metrics_df[['RMSE', 'MAE', 'Direction_Acc']].notna().all(axis=1)
+].reset_index(drop=True))
+print("\nPer-(asset,gap) eval (top RMSE rows):")
+#print(eval_df.dropna(subset=['rmse', 'mae', 'direction_acc'].sort_values('rmse', ascending=False)))
+print(eval_df[eval_df['asset'].isin(f)& eval_df[['rmse', 'mae', 'direction_acc']].notna().all(axis=1)
+].reset_index(drop=True))
 print("Pipeline finished.")
 
