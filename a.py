@@ -17,8 +17,8 @@ for i in range(len(ndf)):
     ndf.iloc[i,-3] = ndf.iloc[i,-3].split("GMT")[0].strip()
 ndf['timestamp'] = pd.to_datetime(ndf['timestamp'])
 
-train_df = ndf.iloc[:110254, :]
-actual_x = ndf.iloc[110254:, :]
+train_df = ndf.iloc[:121455, :]
+actual_x = ndf.iloc[121455:, :]
 
 assets_to_train = [i for i in actual_x["asset"].unique().tolist() if i in train_df["asset"].unique().tolist()]
 c = [[len(train_df[train_df["asset"]==i]), i] for i in assets_to_train]

@@ -1,1 +1,3 @@
-eval_outputs/
+eval_outputs*/
+*.csv
+*.pkl
